@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>涂鸦</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        canvas {
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="tutorial" width="500" height="500"></canvas>
+    <div>
+        <button id="eraser">clear</button>
+    </div>
+    <script defer="defer">
+        let canvas = document.getElementById('tutorial')
+        let ctx = canvas.getContext('2d')
+        ctx.lineWidth = 0.5
+        function mouseMoveHandler(moveEvent) {
+            ctx.lineTo(moveEvent.pageX, moveEvent.pageY);
+            ctx.stroke()
+        }
+        function mouseUpHandler(upEvent) {
+            canvas.removeEventListener('mousemove', mouseMoveHandler)
+            canvas.removeEventListener('mouseup', mouseUpHandler)
+            console.log('fill')
+
+        }
+        canvas.addEventListener('mousedown', (downEvent) => {
+            ctx.beginPath();
+            ctx.moveTo(downEvent.pageX, downEvent.pageY);
+            canvas.addEventListener('mousemove', mouseMoveHandler)
+            canvas.addEventListener('mouseup', mouseUpHandler)
+        })
+        let eraser = document.getElementById('eraser')
+        eraser.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+        })
+    </script>
+</body>
+
+</html>
